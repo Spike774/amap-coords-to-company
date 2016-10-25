@@ -34,7 +34,11 @@ def regeo(lat, lon):
     url = 'http://restapi.amap.com/v3/geocode/regeo?' + urlparams
     urlhandler = urllib.urlopen(url)
     mdata = json.loads(urlhandler.read())
+    addr = mdata['regeocode']['formatted_address']
+
     company = list()
+    company.append(addr)
+
     note = 'there does not exist any companies near 300m of this coords'
     for poi in mdata['regeocode']['pois']:
         if u'公司' in poi['type']:
@@ -52,7 +56,9 @@ if __name__ == '__main__':
         reader = csv.reader(f)
         gps = list(reader)
 
-    regeoresult_csv = file('regeo_result.csv', 'wb')
+    # regeoresult_csv = file('regeo_result.csv', 'wb')
+    regeoresult_csv = file('street_result.csv', 'wb')
+
     writer = csv.writer(regeoresult_csv, delimiter=';')
     i = 1
     size = len(gps[1:])
